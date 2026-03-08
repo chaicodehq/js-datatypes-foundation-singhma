@@ -51,21 +51,63 @@
  *   formatBill([{name:"Atta",price:40,qty:2}]) // => "Atta x 2 = Rs.80"
  */
 export function getItemNames(items) {
-  // Your code here
+  if (!Array.isArray(items) || items.length === 0) {
+    return [];
+  }
+
+  return items.map(el => el.name);
 }
 
 export function getAffordableItems(items, maxPrice) {
-  // Your code here
+  if (!Array.isArray(items) || typeof maxPrice !== "number") {
+    return [];
+  }
+
+  return items.filter(item => {
+    return item.price <= maxPrice;
+  });
 }
 
 export function calculateTotal(items) {
-  // Your code here
+  if (!Array.isArray(items) || items.length === 0) {
+    return 0;
+  }
+  return items.reduce((acc, currentValue) => {
+    return acc + currentValue.price * currentValue.qty;
+  }, 0);
 }
 
 export function sortByPrice(items, ascending) {
-  // Your code here
+  if (!Array.isArray(items)) {
+    return [];
+  }
+
+  // using sorted function sort the array from low to high if ascending value is true
+
+  if (ascending) {
+    return [...items].sort((a, b) => a.price - b.price);
+  } else {
+    return [...items].sort((a, b) => b.price - a.price);
+  }
 }
 
+sortByPrice(
+  [
+    { name: "Atta", price: 40 },
+    { name: "Ghee", price: 500 },
+  ],
+  true,
+);
+
 export function formatBill(items) {
-  // Your code here
+  if (!Array.isArray(items) || items.length === 0) {
+    return "";
+  }
+
+  const mapping = items.map(i => {
+    return `${i.name} x ${i.qty} = Rs.${i.price * i.qty}`;
+  });
+  return mapping.join("\n");
 }
+
+console.log(formatBill([{ name: "Atta", price: 40, qty: 2 }]));
